@@ -1,0 +1,14 @@
+<% if User.current.logged? and Setting.plugin_redmine_activity_degree['display_top_active_projects'] == '1' %>
+    <div class="projects box">
+      <h3><%= l :label_top_active_projects %></h3>
+      <table class="list">
+        <% total = top_active_projects.map(&:last).sum / 100.0 %>
+        <% top_active_projects.each do |e| %>
+            <tr>
+              <td class="project"><%= link_to_project e.first %></td>
+              <td class="progress"><%= progress_bar e.last / total %></td>
+            </tr>
+        <% end %>
+      </table>
+    </div>
+<% end %>

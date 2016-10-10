@@ -1,0 +1,14 @@
+<p>
+  <%= hidden_field_tag 'settings[display_weekly_issue_stack]', '0' %>
+  <label class="block">
+    <%= check_box_tag 'settings[display_weekly_issue_stack]', '1', settings['display_weekly_issue_stack'] == '1' %>
+    <%= l :label_display_weekly_issue_stack %>
+  </label>
+</p>
+<p>
+  <%= hidden_field_tag 'settings[display_top_active_projects]', '0' %>
+  <label class="block">
+    <%= check_box_tag 'settings[display_top_active_projects]', '1', settings['display_top_active_projects'] == '1' %>
+    <%= l :label_display_top_active_projects %>
+  </label>
+</p>

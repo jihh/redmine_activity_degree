@@ -1,0 +1,47 @@
+<% if User.current.logged? and Setting.plugin_redmine_activity_degree['display_weekly_issue_stack'] == '1' %>
+    <div class="issues box">
+      <h3><%= l :label_weekly_issue_stack %></h3>
+
+      <div id="weekly_issue_stack" style="width: 600px;height:300px;"></div>
+      <script type="text/javascript">
+          var weekly_issue_stack_chart = echarts.init(document.getElementById('weekly_issue_stack'));
+          var option = {
+              tooltip: {
+                  trigger: 'axis'
+              },
+              legend: {
+                  data: ['<%= l :button_add%>', '<%= l :button_edit%>', '<%= l :button_close%>']
+              },
+              xAxis: {
+                  boundaryGap: false,
+                  data: <%= week_range.map{|day| day_name day.cwday}.to_json.html_safe%>
+              },
+              yAxis: {},
+              series: [
+                  {
+                      name: '<%= l :button_close%>',
+                      type: 'line',
+                      stack: 'total',
+                      areaStyle: {normal: {}},
+                      data: <%= week_range.map{|day| closed_issues_counter[day].to_i}.to_json %>
+                  },
+                  {
+                      name: '<%= l :button_add%>',
+                      type: 'line',
+                      stack: 'total',
+                      areaStyle: {normal: {}},
+                      data: <%= week_range.map{|day| created_issues_counter[day].to_i}.to_json %>
+                  },
+                  {
+                      name: '<%= l :button_edit%>',
+                      type: 'line',
+                      stack: 'total',
+                      areaStyle: {normal: {}},
+                      data: <%= week_range.map{|day| updated_issues_counter[day].to_i}.to_json %>
+                  }
+              ]
+          };
+          weekly_issue_stack_chart.setOption(option);
+      </script>
+    </div>
+<% end %>
